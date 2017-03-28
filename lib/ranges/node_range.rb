@@ -27,7 +27,7 @@ class Ranges::NodeRange
     new_nodes = other.nodes.merge(@nodes)
     @nodes
       .keys
-      .select { |k| other.nodes.has_key?(k) }
+      .select { |k| other.nodes.key?(k) }
       .each { |key| new_nodes[key] = merge_node_arrays(@nodes[key].clone, other.nodes[key].clone) }
 
     Ranges::NodeRange.new(new_nodes)
@@ -37,36 +37,33 @@ class Ranges::NodeRange
 
   def merge_node_arrays(nodes, other_nodes)
     result = []
-    idx = 0
-    other_idx = 0
-    while idx < nodes.size && other_idx < other_nodes.size
-      node = nodes[idx]
-      other_node = other_nodes[other_idx]
-
-      if other_node.start - node.finish > 1
-        # [] ()
-        result << node
-        idx += 1
-      elsif node.start - other_node.finish > 1
-        # () []
-        result << other_node
-        other_idx += 1
-      elsif node.start < other_node.start
-        # [ ( ) ]
-        other_nodes.shift
-        node.finish = other_node.finish if other_node.finish > node.finish # [ ( ] )
-      elsif node.start > other_node.start
-        # ( [ ] )
-        nodes.shift
-        other_node.finish = node.finish if node.finish > other_node.finish # ( [ ) ]
-      end
+    until nodes.empty? || other_nodes.empty?
+      result << if nodes[0].start < other_nodes[0].start
+                  merge_heads_and_shift!(nodes, other_nodes)
+                else
+                  merge_heads_and_shift!(other_nodes, nodes)
+                end
     end
 
-    result.push(*nodes[idx..-1]) if idx < nodes.size
-    result.push(*other_nodes[other_idx..-1]) if other_idx < other_nodes.size
+    result.push(*nodes) unless nodes.empty?
+    result.push(*other_nodes) unless other_nodes.empty?
 
     merge_adjacent_nodes!(result)
-    result
+  end
+
+  def merge_heads_and_shift!(nodes, other_nodes)
+    node = nodes[0]
+    other_node = other_nodes[0]
+
+    if other_node.start - node.finish > 1
+      # [] ()
+      nodes.shift
+    else
+      # [ ( ) ]
+      other_nodes.shift
+      node.finish = other_node.finish if other_node.finish > node.finish # [ ( ] )
+    end
+    node
   end
 
   def merge_adjacent_nodes!(nodes)
@@ -79,5 +76,6 @@ class Ranges::NodeRange
         idx += 1
       end
     end
+    nodes
   end
 end
