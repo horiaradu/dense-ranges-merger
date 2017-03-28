@@ -1,5 +1,9 @@
 sudo: false
 language: ruby
+cache: bundler
 rvm:
   - 2.4.0
+script:
+  - bundle exec rubocop
+  - bundle exec rspec spec
 before_install: gem install bundler -v 1.14.6
