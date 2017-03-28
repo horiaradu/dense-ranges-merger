@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "range"
+require "ranges"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
