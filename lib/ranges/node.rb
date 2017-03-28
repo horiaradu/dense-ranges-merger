@@ -2,6 +2,7 @@ class Ranges::Node
   attr_accessor :start, :finish, :label
 
   def initialize(start:, finish:, label:)
+    raise ArgumentError if finish < start
     self.start = start
     self.finish = finish
     self.label = label
@@ -15,7 +16,6 @@ class Ranges::Node
   end
 
   def <=>(other)
-    return -1 unless other.is_a?(Ranges::Node)
     start <=> other.start
   end
 end
