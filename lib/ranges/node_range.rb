@@ -9,9 +9,9 @@ class Ranges::NodeRange
     nodes == other.nodes
   end
 
-  def <<(node)
-    @nodes[node.label] ||= []
-    nodes_array = @nodes[node.label]
+  def <<(label:, node:)
+    @nodes[label] ||= []
+    nodes_array = @nodes[label]
     idx = nodes_array.size - 1
     idx -= 1 until idx == -1 || nodes_array[idx].finish == node.start - 1
     if idx == -1

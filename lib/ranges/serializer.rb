@@ -4,7 +4,7 @@ class Ranges::Serializer
     str.split(', ').each do |node_str|
       label, idx = node_str.split('/')
       idx = idx.to_i
-      range << Ranges::Node.new(label: label, start: idx, finish: idx)
+      range << { label: label, node: Ranges::Node.new(start: idx, finish: idx) }
     end
     range
   end
