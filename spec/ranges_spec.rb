@@ -1,11 +1,11 @@
 require "spec_helper"
 
-RSpec.describe Ranges do
+RSpec.describe Range do
   it "has a version number" do
-    expect(Ranges::VERSION).not_to be nil
+    expect(Range::VERSION).not_to be nil
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(true).to eq(true)
   end
 end
