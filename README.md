@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/horiaradu/dense-ranges-merger.svg?branch=master)](https://travis-ci.org/horiaradu/dense-ranges-merger.svg?branch=master)
+
 # Ranges
 
 Gem for handling ranges of nodes which have a label and an index. It stores ranges in a space-efficient manner.
