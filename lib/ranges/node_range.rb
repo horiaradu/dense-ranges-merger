@@ -22,7 +22,7 @@ class Ranges::NodeRange
   end
 
   def merge(other)
-    return self unless other.is_a?(Ranges::NodeRange)
+    raise ArgumentError unless other.is_a?(Ranges::NodeRange)
 
     new_nodes = other.nodes.merge(@nodes)
     @nodes
