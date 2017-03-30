@@ -7,4 +7,8 @@ module Ranges
   def parse(str)
     Serializer.new.read(str)
   end
+
+  def write(range)
+    Serializer.new.write(range)
+  end
 end
